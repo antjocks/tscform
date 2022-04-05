@@ -22,6 +22,7 @@
       />
       <h1 class="display-5 fw-bold">TS Champion Product Question Form</h1>
     </div>
+
     <div class="container">
       <div class="row mb-3">
         <div class="col-lg-8 mx-auto">
@@ -33,65 +34,128 @@
           />
         </div>
       </div>
-      <form>
-        <div class="row mb-3">
-          <div class="col-lg-8 mx-auto">
-            <input
-              type="email"
-              class="form-control"
-              id="cuEmail"
-              placeholder="Your ClickUp Email"
-            />
-          </div>
-        </div>
-        <div class="row mb-3">
-          <div class="col-lg-8 mx-auto">
-            <input
-              type="email"
-              class="form-control"
-              id="reqEmail"
-              placeholder="Requester Email"
-            />
-          </div>
-        </div>
-        <div class="row mb-3">
-          <div class="col-lg-8 mx-auto">
-            <input
-              type="text"
-              class="form-control"
-              id="title"
-              placeholder="Question/Title"
-            />
-          </div>
-        </div>
-        <div class="row mb-3">
-          <div class="col-lg-8 mx-auto">
-            <input
-              type="textarea"
-              class="form-control"
-              id="body"
-              placeholder="Answer"
-            />
-          </div>
-        </div>
-        <div class="row mb-3">
-          <div class="col-lg-8 mx-auto">
-            <input
-              type="url"
-              class="form-control"
-              id="slack"
-              placeholder="Slack link"
-            />
-          </div>
-        </div>
-        <br />
-        <br />
-        <div class="d-grid gap-2 col-2 mx-auto">
-          <button class="btn btn-primary" type="button">Submit</button>
-        </div>
-      </form>
+
+      <div class="tickets-container"></div>
+
+      <div class="d-grid gap-2 col-2 mx-auto">
+        <button class="btn btn-primary" id="submitButton" type="button">Submit</button>
+        <button class="btn btn-primary" id="addTicketButton" type="button">Add Ticket</button>
+      </div>
     </div>
     <br />
     <br />
+
+    <script>
+      window.globalTicketCount = 0;
+
+      function addTicketForm() {
+        window.globalTicketCount += 1;
+
+        var ticketHTML = '<form class="ticket-form ticket-form-' + window.globalTicketCount + '">\n' +
+                '        <div class="row mb-3">\n' +
+                '          <div class="col-lg-8 mx-auto">\n' +
+                '            <input\n' +
+                '              type="email"\n' +
+                '              class="form-control cuEmail"\n' +
+                '              placeholder="Your ClickUp Email"\n' +
+                '            />\n' +
+                '          </div>\n' +
+                '        </div>\n' +
+                '        \n' +
+                '        <div class="row mb-3">\n' +
+                '          <div class="col-lg-8 mx-auto">\n' +
+                '            <input\n' +
+                '              type="email"\n' +
+                '              class="form-control reqEmail"\n' +
+                '              placeholder="Requester Email"\n' +
+                '            />\n' +
+                '          </div>\n' +
+                '        </div>\n' +
+                '        \n' +
+                '        <div class="row mb-3">\n' +
+                '          <div class="col-lg-8 mx-auto">\n' +
+                '            <input\n' +
+                '              type="text"\n' +
+                '              class="form-control title"\n' +
+                '              placeholder="Question/Title"\n' +
+                '            />\n' +
+                '          </div>\n' +
+                '        </div>\n' +
+                '        \n' +
+                '        <div class="row mb-3">\n' +
+                '          <div class="col-lg-8 mx-auto">\n' +
+                '            <input\n' +
+                '              type="textarea"\n' +
+                '              class="form-control body"\n' +
+                '              placeholder="Answer"\n' +
+                '            />\n' +
+                '          </div>\n' +
+                '        </div>\n' +
+                '        \n' +
+                '        <div class="row mb-3">\n' +
+                '          <div class="col-lg-8 mx-auto">\n' +
+                '            <input\n' +
+                '              type="url"\n' +
+                '              class="form-control slack"\n' +
+                '              placeholder="Slack link"\n' +
+                '            />\n' +
+                '          </div>\n' +
+                '        </div>\n' +
+                '      <button class="btn btn-primary" type="button" onclick="removeTicketForm(' + window.globalTicketCount + ')">Remove Ticket</button>' +
+                '      </form>'
+
+        $('.tickets-container').append(ticketHTML);
+      }
+
+      function removeTicketForm(ticketNumber) {
+        $(".ticket-form-" + ticketNumber).remove();
+      }
+
+      $(document).ready(function() {
+        addTicketForm();
+
+        $('#addTicketButton').click(function() {
+          addTicketForm();
+        });
+
+        $("#submitButton").click(function() {
+          var zendeskRequestData = { "tickets": [] }
+
+          $(".ticket-form").each(function(ticketForm) {
+            var thisForm = $(".ticket-form")[ticketForm];
+            debugger;
+
+            var email    = $(thisForm).find(".cuEmail").value;
+            var reqEmail = $(thisForm).find(".reqEmail").value;
+            var title    = $(thisForm).find(".title").value;
+            var body     = $(thisForm).find(".body").value;
+            var slack    = $(thisForm).find(".slack").value;
+
+            // TODO: Add validations...
+
+            var ticketObject = {
+              "subject": title,
+              "comment": {
+                "body": body
+              }
+            }
+
+            zendeskRequestData['tickets'].push(ticketObject);
+          });
+
+          debugger;
+
+          // TODO: Add HTTP Request to Zendesk here...
+          // https://stackoverflow.com/questions/7100294/json-post-with-customized-httpheader-field
+        });
+
+      });
+    </script>
+
+  <style>
+    .tickets-container {
+      border: 1px solid black;
+    }
+  </style>
   </body>
 </html>
