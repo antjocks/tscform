@@ -8,7 +8,7 @@ app.listen(PORT, () => console.log(`it's alive on http://localhost:${PORT}`));
 
 app.get('/', function(req, res) {
   //res.sendFile('/Volumes/Macintosh HD/Users/anthony/Desktop/TSCform/champzd.html');
-  res.sendFile('/index.html');
+  res.sendFile('public/index.html');
 });
 
 app.get('/api', (req, res) => {
