@@ -1,0 +1,25 @@
+{
+  "engines": {
+    "node": "17.7.2"
+  },
+  "name": "tscform",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/antjocks/tscform.git"
+  },
+  "author": "Anthony Jocks",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/antjocks/tscform/issues"
+  },
+  "homepage": "https://github.com/antjocks/tscform#readme",
+  "dependencies": {
+    "express": "^4.17.3"
+  }
+}
