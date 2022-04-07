@@ -7,11 +7,11 @@ app.use( express.json() )
 // use the express-static middleware
 app.use(express.static("public"))
 
-app.listen(PORT, () => console.log(`it's alive on http://localhost:${PORT}`));
+// app.listen(PORT, () => console.log(`it's alive on http://localhost:${PORT}`));
 
 app.get('/', function(req, res) {
   //res.sendFile('/Volumes/Macintosh HD/Users/anthony/Desktop/TSCform/champzd.html');
-  res.sendFile('public/index.html');
+  res.sendFile('index.html');
 });
 
 app.get('/api', (req, res) => {
@@ -35,3 +35,6 @@ app.post('/createtickets', (req, res) => {
 	});
 	
 });
+
+app.listen(process.env.PORT || 3000, 
+() => console.log("Server is running..."));
