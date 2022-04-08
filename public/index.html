@@ -34,6 +34,15 @@
           />
         </div>
       </div>
+      <!-- <div class="row mb-3">
+        <div class="col-lg-8 mx-auto">
+          <input +
+            type="email"
+            class="form-control cuEmail"
+            placeholder="Your ClickUp Email"
+         />
+        </div>
+    </div> -->
 
       <div class="tickets-container"></div>
 
@@ -59,16 +68,6 @@
           '<form class="ticket-form ticket-form-' +
           window.globalTicketCount +
           '">\n' +
-          '        <div class="row mb-3">\n' +
-          '          <div class="col-lg-8 mx-auto">\n' +
-          "            <input\n" +
-          '              type="email"\n' +
-          '              class="form-control cuEmail"\n' +
-          '              placeholder="Your ClickUp Email"\n' +
-          "            />\n" +
-          "          </div>\n" +
-          "        </div>\n" +
-          "        \n" +
           '        <div class="row mb-3">\n' +
           '          <div class="col-lg-8 mx-auto">\n' +
           "            <input\n" +
@@ -128,35 +127,39 @@
         });
 
         $("#submitButton").click(function () {
-          var zendeskRequestData = { tickets: [] };
+          var apiToken = $("#zdAPI").val();
+          var zendeskRequestData = { tickets: [], apiToken };
 
           $(".ticket-form").each(function (ticketForm) {
             var thisForm = $(".ticket-form")[ticketForm];
-            debugger;
-
-            var email = $(thisForm).find(".cuEmail").value;
-            var reqEmail = $(thisForm).find(".reqEmail").value;
-            var title = $(thisForm).find(".title").value;
-            var body = $(thisForm).find(".body").value;
-            var slack = $(thisForm).find(".slack").value;
+            var email = $(thisForm).find(".cuEmail").val();
+            var reqEmail = $(thisForm).find(".reqEmail").val();
+            var title = $(thisForm).find(".title").val();
+            var body = $(thisForm).find(".body").val();
+            var slack = $(thisForm).find(".slack").val();
 
             // TODO: Add validations...
 
             var ticketObject = {
               subject: title,
               comment: {
-                body: body,
+                body: body + " Slack link: " + slack,
               },
+              priority: "normal",
+              requester: reqEmail,
             };
 
             zendeskRequestData["tickets"].push(ticketObject);
-            debugger;
           });
-
-          debugger;
-
-          // TODO: Add HTTP Request to Zendesk here...
-          // https://stackoverflow.com/questions/7100294/json-post-with-customized-httpheader-field
+          $.ajax({
+            type: "POST",
+            url: "http://localhost:3000/createtickets",
+            data: zendeskRequestData,
+            success: function () {
+              alert("success");
+            },
+            dataType: "json",
+          });
         });
       });
     </script>

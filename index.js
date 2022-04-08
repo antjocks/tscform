@@ -1,40 +1,38 @@
-const express = require('express');
+const express = require("express");
 const app = express();
-const PORT = 8080;
+const axios = require("axios");
+const PORT = 3000;
 
-app.use( express.json() ) 
+app.use(express.json());
 
 // use the express-static middleware
-app.use(express.static("public"))
+app.use(express.static("public"));
+app.use(express.urlencoded());
+
+app.get("/", function (req, res) {
+  res.sendFile("index.html");
+});
+
+app.post("/createtickets", (req, res) => {
+  const dataToSend = JSON.stringify(req.body);
+  console.log(dataToSend);
+  const token = req.body.apiToken;
+  console.log(token);
+
+  const zdHeaders = "Authorization: Bearer " + token;
+
+  axios
+    .post("https://nanza.zendesk.com/api/v2/tickets/create_many", dataToSend, {
+      headers: {
+        Authorization: "Bearer " + token,
+        "content-type": "application/json",
+      },
+    })
+    .then((response) => {
+      console.log(response.data);
+    });
+});
 
 // app.listen(PORT, () => console.log(`it's alive on http://localhost:${PORT}`));
 
-app.get('/', function(req, res) {
-  //res.sendFile('/Volumes/Macintosh HD/Users/anthony/Desktop/TSCform/champzd.html');
-  res.sendFile('index.html');
-});
-
-app.get('/api', (req, res) => {
-  res.status(200).send({
-    title: 'test',
-    body: 'body',
-  });
-});
-
-app.post('/createtickets', (req, res) => {
-	
-	const { key } = req.key;
-	const { email } = req.email;
-	
-	if (!string) {
-		res.status(418).send({ message: 'You need a string!' })
-	}
-	
-	res.send({
-		body: `${string} and ID of ${id}`,
-	});
-	
-});
-
-app.listen(process.env.PORT || 3000, 
-() => console.log("Server is running..."));
+app.listen(process.env.PORT || 3000, () => console.log("Server is running..."));
