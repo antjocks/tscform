@@ -34,15 +34,6 @@
           />
         </div>
       </div>
-      <!-- <div class="row mb-3">
-        <div class="col-lg-8 mx-auto">
-          <input +
-            type="email"
-            class="form-control cuEmail"
-            placeholder="Your ClickUp Email"
-         />
-        </div>
-    </div> -->
 
       <div class="tickets-container"></div>
 
@@ -143,7 +134,7 @@
             var ticketObject = {
               subject: title,
               comment: {
-                body: body + " Slack link: " + slack,
+                body: body + "\nSlack link: " + slack,
                 public: "false",
               },
               priority: "normal",
