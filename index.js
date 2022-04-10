@@ -15,11 +15,7 @@ app.get("/", function (req, res) {
 
 app.post("/createtickets", (req, res) => {
   const dataToSend = JSON.stringify(req.body);
-  console.log(dataToSend);
   const token = req.body.apiToken;
-  console.log(token);
-
-  const zdHeaders = "Authorization: Bearer " + token;
 
   axios
     .post("https://nanza.zendesk.com/api/v2/tickets/create_many", dataToSend, {
