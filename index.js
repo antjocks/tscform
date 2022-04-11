@@ -13,23 +13,24 @@ app.get("/", function (req, res) {
   res.sendFile("index.html");
 });
 
-app.post("/createtickets", (req, res) => {
+app.post("/createtickets", async (req, res) => {
   const dataToSend = JSON.stringify(req.body);
   const token = req.body.apiToken;
 
-  axios
-    .post("https://nanza.zendesk.com/api/v2/tickets/create_many", dataToSend, {
+  const zdResponse = await axios.post(
+    "https://nanza.zendesk.com/api/v2/tickets/create_many",
+    dataToSend,
+    {
       headers: {
         Authorization: "Bearer " + token,
         "content-type": "application/json",
       },
-    })
-    .then((response) => {
-      console.log(response.data);
-    });
-  res.json({ code: "200" });
+    }
+  );
+  console.log(zdResponse.data);
+  const responseWasSuccessful = zdResponse.status == 200 ? true : false;
+  const finalResponse = { success: responseWasSuccessful };
+  res.json(finalResponse);
 });
-
-// app.listen(PORT, () => console.log(`it's alive on http://localhost:${PORT}`));
 
 app.listen(process.env.PORT || 3000, () => console.log("Server is running..."));
