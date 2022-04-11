@@ -27,6 +27,7 @@ app.post("/createtickets", (req, res) => {
     .then((response) => {
       console.log(response.data);
     });
+  res.json({ code: "200" });
 });
 
 // app.listen(PORT, () => console.log(`it's alive on http://localhost:${PORT}`));

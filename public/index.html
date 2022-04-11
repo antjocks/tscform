@@ -146,13 +146,15 @@
           });
           $.ajax({
             type: "POST",
-            url: "https://champzendesk.herokuapp.com/createtickets",
+            url: "http://localhost:3000/createtickets",
             data: zendeskRequestData,
             success: function () {
               alert("success");
             },
-            dataType: "jsonp",
+            dataType: "json",
           });
+          
+          return false;
         });
       });
     </script>
