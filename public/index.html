@@ -164,8 +164,8 @@
           });
           $.ajax({
             type: "POST",
-            url: "https://champzendesk.herokuapp.com/createtickets",
-            //url: "http://localhost:3000/createtickets",
+            //url: "https://champzendesk.herokuapp.com/createtickets",
+            url: "http://localhost:3000/createtickets",
             data: zendeskRequestData,
             success: function (response) {
               if (response.success) {
