@@ -18,7 +18,7 @@ app.post("/createtickets", async (req, res) => {
   const token = req.body.apiToken;
 
   const zdResponse = await axios.post(
-    "https://nanza.zendesk.com/api/v2/tickets/create_many",
+    "https://clickup.zendesk.com/api/v2/tickets/create_many",
     dataToSend,
     {
       headers: {

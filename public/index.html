@@ -32,15 +32,25 @@
       <div class="row mb-3">
         <div class="col-lg-8 mx-auto">
           <input
-            type="email"
+            type="text"
             class="form-control"
             id="zdAPI"
             placeholder="ZenDesk API Key"
           />
         </div>
       </div>
+      <div class="row mb-3">
+        <div class="col-lg-8 mx-auto">
+          <input
+            type="text"
+            class="form-control"
+            id="cuEmail"
+            placeholder="Your ClickUp email"
+          />
+        </div>
+      </div>
 
-      <form class="tickets-container"></div>
+      <div class="tickets-container"></div>
 
       <div class="d-grid gap-2 col-2 mx-auto">
         <button class="btn btn-primary" id="addTicketButton" type="button">
@@ -124,6 +134,7 @@
 
         $("#submitButton").click(function () {
           var apiToken = $("#zdAPI").val();
+          var cuEmail = $("#cuEmail").val();
           var zendeskRequestData = { tickets: [], apiToken };
 
           $(".ticket-form").each(function (ticketForm) {
@@ -144,6 +155,8 @@
               },
               priority: "normal",
               tags: ["no_csat"],
+              status: "open",
+              assignee_email: cuEmail,
               requester: reqEmail,
             };
 
@@ -157,8 +170,8 @@
             success: function (response) {
               if (response.success) {
                 toastr.success("Success! Your tickets have been created");
-                $('.tickets-container input').val('');
-                $('.tickets-container').html('');
+                $(".tickets-container input").val("");
+                $(".tickets-container").html("");
                 addTicketForm();
                 $(window).scrollTop(0);
               }
