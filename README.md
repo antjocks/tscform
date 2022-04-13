@@ -6,7 +6,7 @@
 * [JQuery](https://jquery.com)
 * [Express.js](https://expressjs.com/)
 
-For local testing, head over to line 167 and uncomment, then comment out line 168 so the routing is correct. Don't forget to change this back when you submit PRs.
+For local testing, head over to line 167 in index.html and uncomment, then comment out line 168 so the routing is correct. Don't forget to change this back when you submit PRs.
 
 ### Installation
 
