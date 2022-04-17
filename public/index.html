@@ -188,7 +188,6 @@
             //url: "http://localhost:3000/createtickets",
             data: zendeskRequestData,
             success: function (response) {
-              debugger;
               if (response.success) {
                 toastr.success("Success! Your tickets have been created");
                 $(".tickets-container input").val("");
