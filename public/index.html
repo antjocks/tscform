@@ -16,6 +16,7 @@
       rel="stylesheet"
     />
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.3/jquery.validate.min.js" integrity="sha512-37T7leoNS06R80c8Ulq7cdCDU5MNQBwlYoy1TX/WUsLFC2eYNqtKlV0QjH7r8JpG/S0GUMZwebnVFLPd6SU5yg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
   </head>
   <body>
@@ -45,6 +46,7 @@
             type="text"
             class="form-control"
             id="cuEmail"
+            name="champEmail"
             placeholder="Your ClickUp email"
           />
         </div>
@@ -70,53 +72,53 @@
       function addTicketForm() {
         window.globalTicketCount += 1;
 
-        var ticketHTML =
-          '<form class="ticket-form ticket-form-' +
-          window.globalTicketCount +
-          '">\n' +
-          '        <div class="row mb-3">\n' +
-          '          <div class="col-lg-8 mx-auto">\n' +
-          "            <input\n" +
-          '              type="email"\n' +
-          '              class="form-control reqEmail"\n' +
-          '              placeholder="Requester Email"\n' +
-          "            />\n" +
-          "          </div>\n" +
-          "        </div>\n" +
-          "        \n" +
-          '        <div class="row mb-3">\n' +
-          '          <div class="col-lg-8 mx-auto">\n' +
-          "            <input\n" +
-          '              type="text"\n' +
-          '              class="form-control title"\n' +
-          '              placeholder="Question/Title"\n' +
-          "            />\n" +
-          "          </div>\n" +
-          "        </div>\n" +
-          "        \n" +
-          '        <div class="row mb-3">\n' +
-          '          <div class="col-lg-8 mx-auto">\n' +
-          "            <input\n" +
-          '              type="textarea"\n' +
-          '              class="form-control body"\n' +
-          '              placeholder="Answer"\n' +
-          "            />\n" +
-          "          </div>\n" +
-          "        </div>\n" +
-          "        \n" +
-          '        <div class="row mb-3">\n' +
-          '          <div class="col-lg-8 mx-auto">\n' +
-          "            <input\n" +
-          '              type="url"\n' +
-          '              class="form-control slack"\n' +
-          '              placeholder="Slack link"\n' +
-          "            />\n" +
-          "          </div>\n" +
-          "        </div>\n" +
-          '      <div class="d-grid gap-2 col-2 mx-auto"><button class="btn btn-danger" type="button" onclick="removeTicketForm(' +
-          window.globalTicketCount +
-          ')">Remove Ticket</button></div><br/>' +
-          "      </form>";
+        const ticketHTML =
+                '<form class="ticket-form ticket-form-' +
+                window.globalTicketCount +
+                '">\n' +
+                '        <div class="row mb-3">\n' +
+                '          <div class="col-lg-8 mx-auto">\n' +
+                "            <input\n" +
+                '              name="reqEmail"\n' +
+                '              class="form-control reqEmail"\n' +
+                '              placeholder="Requester Email"\n' +
+                "            />\n" +
+                "          </div>\n" +
+                "        </div>\n" +
+                "        \n" +
+                '        <div class="row mb-3">\n' +
+                '          <div class="col-lg-8 mx-auto">\n' +
+                "            <input\n" +
+                '              name="question"\n' +
+                '              class="form-control title"\n' +
+                '              placeholder="Question/Title"\n' +
+                "            />\n" +
+                "          </div>\n" +
+                "        </div>\n" +
+                "        \n" +
+                '        <div class="row mb-3">\n' +
+                '          <div class="col-lg-8 mx-auto">\n' +
+                "            <input\n" +
+                '              name="answer"\n' +
+                '              class="form-control body"\n' +
+                '              placeholder="Answer"\n' +
+                "            />\n" +
+                "          </div>\n" +
+                "        </div>\n" +
+                "        \n" +
+                '        <div class="row mb-3">\n' +
+                '          <div class="col-lg-8 mx-auto">\n' +
+                "            <input\n" +
+                '              name="slack"\n' +
+                '              class="form-control slack"\n' +
+                '              placeholder="Slack link"\n' +
+                "            />\n" +
+                "          </div>\n" +
+                "        </div>\n" +
+                '      <div class="d-grid gap-2 col-2 mx-auto"><button class="btn btn-danger" type="button" onclick="removeTicketForm(' +
+                window.globalTicketCount +
+                ')">Remove Ticket</button></div><br/>' +
+                "      </form>";
 
         $(".tickets-container").append(ticketHTML);
       }
@@ -133,21 +135,39 @@
         });
 
         $("#submitButton").click(function () {
-          var apiToken = $("#zdAPI").val();
-          var cuEmail = $("#cuEmail").val();
-          var zendeskRequestData = { tickets: [], apiToken };
+          const apiToken = $("#zdAPI").val();
+          const cuEmail = $("#cuEmail").val();
+          const zendeskRequestData = {tickets: [], apiToken};
+
 
           $(".ticket-form").each(function (ticketForm) {
-            var thisForm = $(".ticket-form")[ticketForm];
-            var email = $(thisForm).find(".cuEmail").val();
-            var reqEmail = $(thisForm).find(".reqEmail").val();
-            var title = $(thisForm).find(".title").val();
-            var body = $(thisForm).find(".body").val();
-            var slack = $(thisForm).find(".slack").val();
+            const thisForm = $(".ticket-form")[ticketForm];
+            const email = $(thisForm).find(".cuEmail").val();
+            const reqEmail = $(thisForm).find(".reqEmail").val();
+            const title = $(thisForm).find(".title").val();
+            const body = $(thisForm).find(".body").val();
+            const slack = $(thisForm).find(".slack").val();
 
-            // TODO: Add validations...
+            // $(".ticket-form").each(function(){
+            //   $(this).validate({
+            //     reqEmail: {
+            //       required: true,
+            //       email: true
+            //     },
+            //     question: {
+            //       required: true,
+            //     },
+            //     answer: {
+            //       required: true,
+            //     },
+            //     slack: {
+            //       required: true,
+            //       url: true
+            //     },
+            //   });
+            // })
 
-            var ticketObject = {
+            const ticketObject = {
               subject: title,
               comment: {
                 body: body + "\nSlack link: " + slack,
@@ -164,18 +184,23 @@
           });
           $.ajax({
             type: "POST",
-            url: "https://champzendesk.herokuapp.com/createtickets",
-            //url: "http://localhost:3000/createtickets",
+            //url: "https://champzendesk.herokuapp.com/createtickets",
+            url: "http://localhost:3000/createtickets",
             data: zendeskRequestData,
             success: function (response) {
+              debugger;
               if (response.success) {
                 toastr.success("Success! Your tickets have been created");
                 $(".tickets-container input").val("");
                 $(".tickets-container").html("");
                 addTicketForm();
                 $(window).scrollTop(0);
-              }
-            },
+              } else if (response.success === false)
+              {
+                  console.log(response);
+                  toastr.error("Error! Check your inputs and try again")
+                }
+              },
             dataType: "json",
           });
 
