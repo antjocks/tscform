@@ -6,6 +6,14 @@
 * [JQuery](https://jquery.com)
 * [Express.js](https://expressjs.com/)
 
+
+### About
+
+This whole app was built with simplicity in mind since it's a form, but I'm open to eventually using a framework if needed. As of now, not too much complexity to manage.
+
+
+### Local Settings
+
 For local testing, head over to line 167 in index.html and uncomment, then comment out line 168 so the routing is correct. Don't forget to change this back when you submit PRs.
 
 ### Installation
