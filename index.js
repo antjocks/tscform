@@ -10,7 +10,7 @@ app.use(express.json());
 // use the express-static middleware
 app.use(express.static("public"));
 app.use(express.urlencoded());
-app.use(enforce.HTTPS( { trustProtoHeader: true }));
+// app.use(enforce.HTTPS( { trustProtoHeader: true }));
 app.use(
   cors({
     origin: ["https://champzendesk.herokuapp.com"],
