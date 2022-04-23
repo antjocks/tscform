@@ -194,6 +194,14 @@
                 $(".tickets-container").html("");
                 addTicketForm();
                 $(window).scrollTop(0);
+                let win = window.open('https://clickup.zendesk.com/agent/dashboard', '_blank');
+                if (win) {
+                  //Browser has allowed it to be opened
+                  win.focus();
+                } else {
+                  //Browser has blocked it
+                  alert('Please allow popups for this website');
+                }
               } else if (response.success === false)
               {
                   console.log(response);
